@@ -1,43 +1,51 @@
 // Build the metadata panel
 function buildMetadata(sample) {
   d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
+    console.log("Metadata JSON Data:", data);
 
     // get the metadata field
     const metadata = data.metadata;
+    console.log("Metadata:", metadata);
 
     // Filter the metadata for the object with the desired sample number
     const resultArray = metadata.filter(sampleObj => sampleObj.id == sample);
     const result = resultArray[0];
+    console.log("Filtered Metadata Result:", result);
 
     // Use d3 to select the panel with id of `#sample-metadata`
     const panel = d3.select("#sample-metadata");
     // Use `.html("") to clear any existing metadata
     panel.html("");
-    Object.entries(result).forEach(([key, value]) => {
-      panel.append("h6").text(`${key.toUpperCase()}: ${value}`);
-    });
 
-    // Inside a loop, you will need to use d3 to append new
-    // tags for each key-value in the filtered metadata.
-  
+    // Loop through each key-value pair in the metadata and append to the panel
+    Object.entries(result).forEach(([key, value]) => {
+      const text = `${key.toUpperCase()}: ${value}`;
+      panel.append("h6").text(text);
+    });
   });
 }
 
 // function to build both charts
 function buildCharts(sample) {
   d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
+    console.log("Samples JSON Data:", data);
 
     // Get the samples field
     const samples = data.samples;
+    console.log("Samples:", samples);
 
     // Filter the samples for the object with the desired sample number
     const resultArray = samples.filter(sampleObj => sampleObj.id == sample);
     const result = resultArray[0];
+    console.log("Filtered Samples Result:", result);
 
     // Get the otu_ids, otu_labels, and sample_values
     const otu_ids = result.otu_ids;
     const otu_labels = result.otu_labels;
     const sample_values = result.sample_values;
+    console.log("OTU IDs:", otu_ids);
+    console.log("OTU Labels:", otu_labels);
+    console.log("Sample Values:", sample_values);
 
     // Build a Bubble Chart
     const bubbleData = [{
@@ -57,6 +65,7 @@ function buildCharts(sample) {
       margin: { t: 0 },
       hovermode: 'closest',
       xaxis: { title: 'OTU ID' },
+      yaxis: { title: 'Number of Bacteria' },
       margin: { t: 30}
     };
 
@@ -77,6 +86,7 @@ function buildCharts(sample) {
 
     const barLayout = {
       title: 'Top 10 Bacteria Cultures Found',
+      xaxis: { title: 'Number of Bacteria' },
       margin: { t: 30, l: 150 }
     };
 
@@ -89,9 +99,11 @@ function buildCharts(sample) {
 // Function to run on page load
 function init() {
   d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
+    console.log("Initialization JSON Data:", data);
 
     // Get the names field
     const sampleNames = data.names;
+    console.log("Sample Names:", sampleNames);
 
     // Use d3 to select the dropdown with id of `#selDataset`
     const selector = d3.select("#selDataset");
@@ -106,6 +118,7 @@ function init() {
 
     // Get the first sample from the list
     const firstSample = sampleNames[0];
+    console.log("First Sample:", firstSample);
 
     // Build charts and metadata panel with the first sample
     buildCharts(firstSample);
@@ -116,6 +129,7 @@ function init() {
 
 // Function for event listener
 function optionChanged(newSample) {
+  console.log("New Sample Selected:", newSample);
   // Build charts and metadata panel each time a new sample is selected
   buildCharts(newSample);
   buildMetadata(newSample);
