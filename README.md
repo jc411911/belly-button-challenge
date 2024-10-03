@@ -1,5 +1,6 @@
 # Belly Button Challenge
 Module 14 Challenge Joe Almendarez
+https://jc411911.github.io/belly-button-challenge/
 
 This project visualizes bacterial data from different samples using D3.js and Plotly.js. The application dynamically updates charts and metadata based on user-selected samples.
 
